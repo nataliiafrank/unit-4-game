@@ -1,3 +1,4 @@
+// Put the whole game iside kittyCollector object
 var kittyCollector = {
     score: 0,
     wins: 0,
@@ -6,11 +7,13 @@ var kittyCollector = {
     catsValues: [],
     buttonsActive: true,
 
+    // A function for generating a random number
     randomNumber: function (min, max) {
         var random = Math.floor(Math.random() * (max - min + 1) + min);
         return random;
     },
 
+    // Creates an array of 4 random numbers
     crystals: function () {
         var crystalValues = [];
 
@@ -23,13 +26,11 @@ var kittyCollector = {
         return crystalValues;
     },
 
-    //Genarates a randome number for Score
+    // Genarates a randome number for Score and Cats, renders everything to the page and gives each cat a value
     gameStart: function () {
         this.score = this.randomNumber(19, 120);
-        console.log(this.score)
 
         this.catsValues = this.crystals();
-        console.log(this.catsValues)
 
         this.render();
 
@@ -37,15 +38,14 @@ var kittyCollector = {
     },
 
     clickHandler: function (id, v) {
-        var _this = this;
         $(id).click(function () {
+            // Making sure user can't prass buttons while Win/Lose window is showing
             if (this.buttonsActive !== true) {
                 return false;
             }
 
             this.userScore += v;
-            console.log(v);
-            console.log(this.userScore);
+    
             $("#userScoreDiv").text(this.userScore);
 
             if (this.userScore === this.score) {
@@ -79,10 +79,13 @@ var kittyCollector = {
         this.userScore = 0;
     },
 
+    // Shows You Won/ You Lost window
     popUpWindow: function(status) {
         $(".message").addClass("show");
         $(".message #status").text(status);
+        // Making sure user can't click buttons while window is being shown
         this.buttonsActive = false;
+        // Renders final total score 
         this.render();
 
         setTimeout(function() {
